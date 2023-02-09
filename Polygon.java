@@ -1,7 +1,6 @@
-import java.text.DecimalFormat;
 /**
  * The Polygon class represents a polygon shape.
- * It contains information fabout the number of sides, side length, shape type, and perimeter.
+ * It contains information fabout the number of sides, side length, shape type, perimeter, and area.
  */
 public class Polygon 
 {
@@ -9,12 +8,12 @@ public class Polygon
   private double sideLength;
   private String shapeType;
   private double perimeter;
+  private double tempPerimeter;
   private double area;
-  private boolean sideValidity;
-  private boolean sideLengthValidty;
-
+  private double tempArea;
   /**
-   * Constructs a Polygon object with the number of sides, side length, and shape type.
+   * If the amount of sides is greater than 3 and has sides longer than 0,Constructs a Polygon object with the number of sides, side length, and shape type.
+   *If the amount of sides is less than 3 or has a side length of less than 0, assigns a default amount of 3 sides, a length of 1.0 and is named "Triangle"
    * @param getNumSides the number of sides
    * @param getSideLength the length of each side
    * @param getShapeType the type of the shape
@@ -25,6 +24,12 @@ public class Polygon
     sides = PolySides;
     sideLength = PolyLength;
     shapeType = PolyShape;
+    if(sides < 3 || sideLength <= 0) 
+    {
+      sides = 3;
+      sideLength = 1.0;
+      shapeType = "Triangle";
+    }
   }
   /**
    * Constructs a Polygon object as a triangle with 3 sides and side length of 1.0.
@@ -34,7 +39,7 @@ public class Polygon
   {
     sides = 3;
     sideLength = 1.0;
-    shapeType = "triangle";
+    shapeType = "Triangle";
     perimeter = sides * sideLength;
   }
   
@@ -66,21 +71,28 @@ public class Polygon
   }
   
  /**
-  *Sets the length of each side of the polygon.
+  *If the new side length is greater than 0, it sets the length of each side of the polygon.
   *@param newSideLength the new length of each side of the polygon
   */
   public void setSideLength(double newSideLength)
   {
-    sideLength = newSideLength;
+    if(newSideLength > 0)
+    {
+      sideLength = newSideLength;
+    }
   }
     
  /**
-  *Sets the type of the polygon
+  *If the new number of sides is greater than 3, it sets the amount of 
+sides of the polygon
   *@param newNumSides the new number of sides of the polygon
   */
   public void setNumSides(int newNumSides)
   {
-    sides = newNumSides;
+    if(newNumSides > 2)
+    {
+      sides = newNumSides;
+    }
   }
     
  /**
@@ -98,20 +110,26 @@ public class Polygon
   */
   public double calculatePerimeter()
   {
-    perimeter = sides * sideLength;
-    DecimalFormat df = new DecimalFormat("#.###");
-    return Double.parseDouble(df.format(perimeter));
+    tempPerimeter = sides * sideLength;
+    perimeter = Math.round(tempPerimeter * 1000)/1000.0;
+    return perimeter;
   }
     
  /**
   *Calculates and returns the new area of the polygon.
   *@return the area of the polygon
   */
+  public double getArea()
+  {
+    double tempArea = (sides * Math.pow(sideLength, 2)) / (4 * Math.tan(Math.PI/sides));
+    area = Math.round(tempArea * 1000)/1000.0;
+    return area;
+  }
   public double calculateArea()
   {
-    double area = (sides * Math.pow(sideLength, 2)) / (4 * Math.tan(Math.PI/sides));
-    DecimalFormat df = new DecimalFormat("#.###");
-    return Double.parseDouble(df.format(area));
+    double tempArea = (sides * Math.pow(sideLength, 2)) / (4 * Math.tan(Math.PI/sides));
+    area = Math.round(tempArea * 1000)/1000.0;
+    return area;
   }
   
   /**
@@ -123,29 +141,15 @@ public class Polygon
    */
   public String toString()
   {
-    sideValidity = true;
-    if(sides < 3)
+    tempPerimeter = sides * sideLength;
+    perimeter = Math.round(tempPerimeter * 1000)/1000.0;
+    if (sides > 2 && sideLength > 0)
     {
-      sideValidity = false;
-      sides = 3;
-    }
-    sideLengthValidty = true;
-    if(sideLength < 0)
-    {
-      sideLengthValidty = false;
-      sideLength = 1.0;
-    }
-    perimeter = sides * sideLength;
-    DecimalFormat df = new DecimalFormat("#.###");
-    
-    if (sideValidity && sideLengthValidty)
-    {
-      return "Your shape is a " + shapeType + " and it has " + sides + " sides.\n" + "It has a side length of " + sideLength + ".\n" + "It has a perimeter of " + df.format(perimeter) + " units.";
+      return "Your shape is a " + shapeType + " and it has " + sides + " sides.\n" + "It has a side length of " + sideLength + ".\n" + "It has a perimeter of " + perimeter + " units.";
     }
     else
     {
       return "Not a valid polygon. Your polygon was given a default of 3 sides, was named 'triangle', and each side has a length of 1.0 units.";
-      //ask if you keep these values or just resort to his example output
     }
   }
 }
