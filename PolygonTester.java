@@ -13,11 +13,14 @@ public class PolygonTester {
       System.out.println(polygon1);
       System.out.println();
 
-      Polygon polygon2 = new Polygon(8, 7, "octagon");
+      Polygon polygon2 = new Polygon(5, 6.341235, "pentagon");
       System.out.println(polygon2);
       System.out.println();
+      
 
       Polygon polygon3 = new Polygon(1, 5, "line");
-        System.out.println(polygon3);
+      System.out.println(polygon3);
+      System.out.println(polygon2.calculatePerimeter());
+      System.out.println(polygon2.calculateArea());
     }
 }
