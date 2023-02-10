@@ -159,7 +159,7 @@ sides of the polygon
     }
     else
     {
-      return "Not a valid polygon. Your polygon was given a default of 3 sides, was named 'triangle', and each side has a length of 1.0 units.";
+      return "Not a valid polygon. Your polygon was given a default of 3 sides, was named 'triangle', and each side has a length of 1.0 units. It has a perimeter of 3.0";
     }
   }
 }
