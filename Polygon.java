@@ -11,6 +11,8 @@ public class Polygon
   private double tempPerimeter;
   private double area;
   private double tempArea;
+  private boolean sideValid;
+  private boolean sideLengthValid;
   /**
    * If the amount of sides is greater than 3 and has sides longer than 0,Constructs a Polygon object with the number of sides, side length, and shape type.
    *If the amount of sides is less than 3 or has a side length of less than 0, assigns a default amount of 3 sides, a length of 1.0 and is named "Triangle"
@@ -24,11 +26,15 @@ public class Polygon
     sides = PolySides;
     sideLength = PolyLength;
     shapeType = PolyShape;
+    sideValid = true;
+    sideLengthValid = true;
     if(sides < 3 || sideLength <= 0) 
     {
       sides = 3;
       sideLength = 1.0;
       shapeType = "Triangle";
+      sideLengthValid = false;
+      sideValid = false;
     }
   }
   /**
@@ -76,9 +82,11 @@ public class Polygon
   */
   public void setSideLength(double newSideLength)
   {
+    sideLengthValid = false;
     if(newSideLength > 0)
     {
       sideLength = newSideLength;
+      sideLengthValid = true;
     }
   }
     
@@ -89,15 +97,17 @@ sides of the polygon
   */
   public void setNumSides(int newNumSides)
   {
+    sideValid = false;
     if(newNumSides > 2)
     {
       sides = newNumSides;
+      sideValid = true;
     }
   }
     
  /**
   *Sets the shape of the polygon.
-  *@param newShapeType the new type of the polygon.\
+  *@param newShapeType the new type of the polygon.
   */
   public void setShapeName(String newShapeType)
   {
@@ -143,7 +153,7 @@ sides of the polygon
   {
     tempPerimeter = sides * sideLength;
     perimeter = Math.round(tempPerimeter * 1000)/1000.0;
-    if (sides > 2 && sideLength > 0)
+    if (sideValid && sideLengthValid)
     {
       return "Your shape is a " + shapeType + " and it has " + sides + " sides.\n" + "It has a side length of " + sideLength + ".\n" + "It has a perimeter of " + perimeter + " units.";
     }
